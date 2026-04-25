@@ -29,6 +29,10 @@ fun TransactionCard(transaction: Transaction) {
                     color = Color.Red
                 )
             }
+            if(transaction.category !=null) {
+                Text((transaction.category))
+            }
+
         }
         Text("${transaction.amount} rub.", style = MaterialTheme.typography.bodyLarge)
     }

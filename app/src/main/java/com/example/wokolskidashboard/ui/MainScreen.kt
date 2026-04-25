@@ -24,6 +24,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
     var expenseName by rememberSaveable { mutableStateOf("") }
     var expenseAmount by rememberSaveable { mutableStateOf("") }
     var expenseOptional by rememberSaveable { mutableStateOf(false) }
+    var expenseCategory by rememberSaveable { mutableStateOf("Sklep") }
 
     val balance = transactions.sumOf { tx ->
         if (tx.isExpense) -tx.amount else tx.amount
@@ -62,9 +63,11 @@ fun MainScreen(modifier: Modifier = Modifier) {
             name = expenseName,
             amount = expenseAmount,
             isOptional = expenseOptional,
+            category = expenseCategory,
             onNameChange = { expenseName = it},
             onAmountChange = { expenseAmount = it},
             onOptionalChange = { expenseOptional = it},
+            onCategoryChange = { expenseCategory = it},
             onSave = {
                 val amountDouble = expenseAmount.toDoubleOrNull()
                 if(expenseName.isBlank() || amountDouble == null || amountDouble <=0.0) return@ExpenseForm
@@ -74,12 +77,14 @@ fun MainScreen(modifier: Modifier = Modifier) {
                         name = expenseName,
                         amount = amountDouble,
                         isExpense = true,
+                        category = expenseCategory,
                         isOptional = expenseOptional
                     )
                 )
                 expenseName = ""
                 expenseAmount = ""
                 expenseOptional = false
+                expenseCategory = "Sklep"
             }
         )
 
