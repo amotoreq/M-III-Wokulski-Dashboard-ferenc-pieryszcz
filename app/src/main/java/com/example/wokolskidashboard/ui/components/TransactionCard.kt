@@ -23,6 +23,12 @@ fun TransactionCard(transaction: Transaction) {
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(transaction.name, style = MaterialTheme.typography.bodyLarge)
+            if (transaction.isExpense && transaction.isOptional) {
+                Text(
+                    "⚠️ Wydatek zbyteczny",
+                    color = Color.Red
+                )
+            }
         }
         Text("${transaction.amount} rub.", style = MaterialTheme.typography.bodyLarge)
     }
