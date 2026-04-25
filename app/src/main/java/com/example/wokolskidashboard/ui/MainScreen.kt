@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.wokolskidashboard.model.Transaction
 import com.example.wokolskidashboard.ui.components.BalanceHeader
+import com.example.wokolskidashboard.ui.components.ExpenseForm
 import com.example.wokolskidashboard.ui.components.IncomeForm
 import com.example.wokolskidashboard.ui.components.TransactionCard
 
@@ -20,6 +21,9 @@ fun MainScreen(modifier: Modifier = Modifier) {
     val transactions = remember { mutableStateListOf<Transaction>() }
     var incomeName by rememberSaveable { mutableStateOf("") }
     var incomeAmount by rememberSaveable { mutableStateOf("") }
+    var expenseName by rememberSaveable { mutableStateOf("") }
+    var expenseAmount by rememberSaveable { mutableStateOf("") }
+    var expenseOptional by rememberSaveable { mutableStateOf(false) }
 
     val balance = transactions.sumOf { tx ->
         if (tx.isExpense) -tx.amount else tx.amount
@@ -51,6 +55,30 @@ fun MainScreen(modifier: Modifier = Modifier) {
 
                 incomeName = ""
                 incomeAmount = ""
+            }
+        )
+
+        ExpenseForm(
+            name = expenseName,
+            amount = expenseAmount,
+            isOptional = expenseOptional,
+            onNameChange = { expenseName = it},
+            onAmountChange = { expenseAmount = it},
+            onOptionalChange = { expenseOptional = it},
+            onSave = {
+                val amountDouble = expenseAmount.toDoubleOrNull()
+                if(expenseName.isBlank() || amountDouble == null || amountDouble <=0.0) return@ExpenseForm
+
+                transactions.add(
+                    Transaction(
+                        name = expenseName,
+                        amount = amountDouble,
+                        isExpense = true,
+                    )
+                )
+                expenseName = ""
+                expenseAmount = ""
+                expenseOptional = false
             }
         )
 
