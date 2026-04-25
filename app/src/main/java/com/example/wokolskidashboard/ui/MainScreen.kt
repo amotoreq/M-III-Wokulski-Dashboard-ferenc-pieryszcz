@@ -49,7 +49,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
                     Transaction(
                         name = incomeName.trim(),
                         amount = amountDouble,
-                        isExpense = false
+                        isExpense = false,
                     )
                 )
 
@@ -74,6 +74,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
                         name = expenseName,
                         amount = amountDouble,
                         isExpense = true,
+                        isOptional = expenseOptional
                     )
                 )
                 expenseName = ""
